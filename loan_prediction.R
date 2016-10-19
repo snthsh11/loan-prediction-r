@@ -4,15 +4,22 @@ library(randomForest)
 library(xgboost)
 train1 <-read.csv("/Users/Santhosh/Downloads/train_loan_prediction.csv",header = TRUE, na.strings = c('',' '),stringsAsFactors = FALSE)
 test <- read.csv("/Users/Santhosh/Downloads/test_loan_prediction.csv",header = TRUE, na.strings = c('',' '),stringsAsFactors = FALSE)
+
+# View the explore the dataset
+str(train)
 View(train)
+# look at the class for each variable
 sapply(train,class)
+# look at unique values
 sapply(train,unique)
-train[complete.cases(train)==TRUE,]
 nas <-is.na(train$Gender)
 complete <- complete.cases(train)
-sapply(train,function(x) sum(is.na(x)))
 
-train <-test
+# the below code gives you the sum of missing values for each column.
+# this is really helpful
+sapply(train,function(x) sum(is.na(x))) # or colSums(is.na(train))
+
+#train <-test
 # variable transformation--Dependents
 train[train$Dependents == '3+' & is.na(train$Dependents)==FALSE,4] <-'3'
 train$Dependents <- as.integer(train$Dependents)
